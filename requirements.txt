@@ -7,5 +7,6 @@ matplotlib
 tqdm
 wandb
 Pillow
+gdown
 lpips
 git+https://github.com/MIC-DKFZ/MedNeXt.git
