@@ -65,9 +65,9 @@ class Discriminator3D(nn.Module):
         return features  
 
 MonaiDiscriminator = PatchDiscriminator(
-    spatial_dims = 3,
-    num_layers_d=2,
-    num_channels=32,
+    spatial_dims=3,
+    num_layers_d=3,
+    num_channels=64,
     in_channels=2,
     out_channels=1
 )
