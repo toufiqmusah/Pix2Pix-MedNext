@@ -127,7 +127,6 @@ def train_fn(train_dl, G, D, criterion_bce, criterion_mae, criterion_perceptual,
             loss_g_ssim = criterion_ssim(fake_img_clean, real_img_clean)
             wandb.log({
                 "SSIM Loss": loss_g_ssim.item(),
-                "GAN Loss": loss_g_gan.item(),
                 "L1 Loss": loss_g_l1.item(),
                 "Perceptual Loss": loss_g_perceptual.item()
             })
@@ -216,7 +215,6 @@ def train_loop(train_dl, G, D, num_epoch, lr=0.0002, betas=(0.5, 0.999)):
             "Discriminator Loss": loss_d,
             "G Grad Norm": g_grad_norm,
             "D Grad Norm": d_grad_norm,
-            "Noise Std": noise_std,
             "epoch": e + 1
         })
 
