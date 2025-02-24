@@ -14,8 +14,8 @@ WANDB_API_KEY = "8b67af0ea5e8251ee45c6180b5132d513b68c079"  # ← Replace with y
 wandb.login(key=WANDB_API_KEY)
 
 # Data directories (ensure these paths point to your data)
-input_dir = "msk-mri-africa-dataset/BrainMSK"
-label_dir = "msk-mri-africa-dataset/BrainMRI"
+input_dir = "msk-mri-brats21-dataset/BrainMSK-1C"
+label_dir = "msk-mri-brats21-dataset/BrainMRI"
 
 # Create dataloader
 dataloader = get_dataloader(input_dir, label_dir, batch_size=3)
