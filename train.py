@@ -217,7 +217,7 @@ def train_loop(train_dl, G, D, num_epoch, lr=0.0002, betas=(0.5, 0.999)):
             "epoch": e + 1
         })
 
-        if (e + 1) % 3 == 0:
+        if (e + 1) % 1 == 0:
             saving_model(D, G, e)
             saving_logs(result)
             save_comparison(real_img, fake_img, input_img, e + 1)

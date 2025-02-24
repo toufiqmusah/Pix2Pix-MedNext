@@ -29,7 +29,7 @@ G = MedNextGenerator3D(input_channels=1, output_channels=1)
 D = MonaiDiscriminator
 
 # Set the number of training epochs
-EPOCH = 6
+EPOCH = 2
 
 # Initialize the wandb run
 wandb.init(project="Pix2Pix-MRI-Style-Transfer")
