@@ -14,8 +14,8 @@ WANDB_API_KEY = "8b67af0ea5e8251ee45c6180b5132d513b68c079"  # ← Replace with y
 wandb.login(key=WANDB_API_KEY)
 
 # Data directories (ensure these paths point to your data)
-input_dir = "BrainMSK"
-label_dir = "BrainMRI"
+input_dir = "msk-mri-africa-testset/BrainMSK"
+label_dir = "msk-mri-africa-testset/BrainMRI"
 
 # Create dataloader
 dataloader = get_dataloader(input_dir, label_dir, batch_size=3)
@@ -29,7 +29,7 @@ G = MedNextGenerator3D(input_channels=1, output_channels=1)
 D = MonaiDiscriminator
 
 # Set the number of training epochs
-EPOCH = 12
+EPOCH = 6
 
 # Initialize the wandb run
 wandb.init(project="Pix2Pix-MRI-Style-Transfer")

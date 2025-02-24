@@ -127,7 +127,6 @@ def train_fn(train_dl, G, D, criterion_bce, criterion_mae, criterion_perceptual,
             loss_g_ssim = criterion_ssim(fake_img_clean, real_img_clean)
             wandb.log({
                 "SSIM Loss": loss_g_ssim.item(),
-                "L1 Loss": loss_g_l1.item(),
                 "Perceptual Loss": loss_g_perceptual.item()
             })
         
@@ -224,9 +223,6 @@ def train_loop(train_dl, G, D, num_epoch, lr=0.0002, betas=(0.5, 0.999)):
             save_comparison(real_img, fake_img, input_img, e + 1)
             show_losses(total_loss_g, total_loss_d)
 
-            wandb.log({
-                "Comparison": wandb.Image(f'generated/comparison_epoch_{e + 1}.png'),
-            }, step=e + 1)
 
     saving_model(D, G, num_epoch - 1)
     saving_logs(result)
@@ -250,11 +246,20 @@ def save_comparison(real_img, fake_img, input_img, epoch):
     fake_slice = fake_sample[..., 30]
     input_slice = input_sample[..., 30]
 
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10, 5))
-    real_np = real_slice.cpu().detach().numpy().squeeze()
-    fake_np = fake_slice.cpu().detach().numpy().squeeze()
-    input_np = input_slice.cpu().detach().numpy().squeeze()
+    # Convert to numpy and normalize for better visualization
+    def prepare_slice(slice_tensor):
+        slice_np = slice_tensor.cpu().detach().numpy().squeeze()
+        slice_np = (slice_np - slice_np.min()) / (slice_np.max() - slice_np.min())
+        return slice_np
 
+    real_np = prepare_slice(real_slice)
+    fake_np = prepare_slice(fake_slice)
+    input_np = prepare_slice(input_slice)
+
+    # Create figure
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15, 5))
+    
+    # Plot images
     ax1.imshow(input_np, cmap='gray')
     ax1.set_title('Input Image')
     ax1.axis('off')
@@ -266,7 +271,14 @@ def save_comparison(real_img, fake_img, input_img, epoch):
     ax3.axis('off')
 
     plt.suptitle(f'Epoch {epoch}')
+    
+    # Save the figure locally
     plt.savefig(f'generated/comparison_epoch_{epoch}.png', bbox_inches='tight', dpi=150)
+    
+    # Log to wandb - both the combined figure and individual images
+    wandb.log({
+        "Comparison": wandb.Image(plt.gcf(), caption=f"Epoch {epoch}")})
+    
     plt.close()
 
 def saving_logs(result):
